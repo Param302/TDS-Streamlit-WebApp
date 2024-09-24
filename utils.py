@@ -1,47 +1,27 @@
+import json
+import requests
 from datetime import datetime, timedelta
-import requests, json
+
+def extract_csv_from_zip(zip_file:str) -> str:
+    ...
 
 
-def dataset_value_find():
+def get_value_from_csv(csv_file:str) -> int:
+    ...
 
-    # Below is Javascript code for dataset value find question.
-    # If possible use this also..
-    # Or you can give show this javascript snippet and say user to copy and paste it in his console in which he is giving TDS GA0, executing this code answer will be printed on console.
-    """
-    let neww = Array.from(document.getElementsByClassName('foo'));
-    let total = 0;
-
-    for (let i of neww) {
-        for (let j of Array.from(i.children)) {
-            total += Number.parseInt(j.dataset.value);
-        }
-    }
-    """
+def get_calculate_expression(expression:str) -> int:
+    ...
 
 
-def post_request(email:str, salt:str) -> str:
-    
-    # URL to which the POST request will be sent
-    url = 'https://httpbin.org/response-headers'
-
-    # Parameters to be sent in the GET request
-    params = {
-        'email': email,
-        'salt': salt
-    }
-
-    # Sending the GET request
-    response = requests.get(url, params=params)
-
-    # Checking the response status code
-    if response.status_code == 200:
-        maal = response.json()
-        return maal['Content-Length']
-    else:
-        return "Some error eccored"
+def get_colab_code():
+    ...
 
 
-def check_days(day:str, start_date:str, end_date:str) -> int:
+def get_hidden_text_code():
+    ...
+
+
+def calculate_days(day:str, start_date:str, end_date:str) -> int:
     
     """
     Example parameters
@@ -72,7 +52,7 @@ def check_days(day:str, start_date:str, end_date:str) -> int:
     return target
 
 
-def sort_json():
+def get_sorted_json():
     # Function to read JSON data from a file
     def read_json(file_path):
         with open(file_path, 'r') as file:
@@ -88,3 +68,42 @@ def sort_json():
     final = sorted(data, key=lambda x: (x['age'], x['name']))
 
     return json.dumps(final, separators=(',', ':'))
+
+
+def get_css_selector_code():
+
+    # Below is Javascript code for dataset value find question.
+    # If possible use this also..
+    # Or you can give show this javascript snippet and say user to copy and paste it in his console in which he is giving TDS GA0, executing this code answer will be printed on console.
+    return """
+    let foo_elements = Array.from(document.getElementsByClassName('div.foo'));
+    let total = 0;
+
+    for (let i of foo_elements) {
+        for (let j of Array.from(i.children)) {
+            total += Number.parseInt(j.dataset.value);
+        }
+    }
+    """
+
+
+def get_content_length_from_post_request(email:str, salt:str) -> str:
+    
+    # URL to which the POST request will be sent
+    url = 'https://httpbin.org/response-headers'
+
+    # Parameters to be sent in the GET request
+    params = {
+        'email': email,
+        'salt': salt
+    }
+
+    # Sending the GET request
+    response = requests.get(url, params=params)
+
+    # Checking the response status code
+    if response.status_code == 200:
+        maal = response.json()
+        return maal['Content-Length']
+    else:
+        return "Some error eccored"

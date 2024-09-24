@@ -5,7 +5,7 @@ st.subheader("Made by Parampreet Singh and Anant Luthra")
 st.markdown(
     "_This is an unofficial web app for the **TDS Graded Assignment 0**_.")
 
-st.markdown('#### Q1: What is the value in the "_answer_" column of `q1.csv`?')
+st.markdown('---\n#### Q1: What is the value in the "_answer_" column of `q1.csv`?')
 with st.expander("Instructions"):
     st.markdown("""1. Download the ZIP file from the link provided in [portal](https://tools-in-data-science.pages.dev/ga0).
 2. Upload the ZIP file below.""")
@@ -15,10 +15,10 @@ uploaded_file = uploader.file_uploader(
     "Upload ZIP file", type=["zip"], label_visibility="hidden")
 
 if uploaded_file is not None:
-    ans1.markdown("#### Answer: `Hello`")
+    ans1.markdown("##### Answer: `Hello`")
 
 
-st.markdown("#### Q2: Paste the formula to calculate answer in Google Sheets.")
+st.markdown("---\n#### Q2: Paste the formula to calculate answer in Google Sheets.")
 with st.expander("Instructions"):
     st.markdown("""**Original question**:
 > Use Google Sheets
@@ -27,16 +27,16 @@ with st.expander("Instructions"):
 """)
 q2_input, ans2 = st.columns([2, 1], gap="medium", vertical_alignment="center")
 q2_input.text_input("Paste the Formula below", placeholder="=SUM(ARRAY_CONSTRAIN(SEQUENCE(1, 2, 3, 4), 1, 2))", label_visibility="hidden")
-ans2.markdown("#### Answer: `Hello`")
+ans2.markdown("##### Answer: `Hello`")
 
 
-st.markdown("#### Q3: DIY :)")
+st.markdown("---\n#### Q3: DIY :)")
 
 
-st.markdown("#### Q4: DIY :)")
+st.markdown("---\n#### Q4: DIY :)")
 
 
-st.markdown("#### Q5: Paste the following code in console panel of _Developer Tools_ in your browser.")
+st.markdown("---\n#### Q5: Paste the following code in console panel of _Developer Tools_ in your browser.")
 with st.expander("Instructions"):
     st.markdown("""1. Open the Developer Tools in your browser.
 2. Go to the Console panel.
@@ -54,7 +54,7 @@ with st.expander("Instructions"):
 """)
 
 
-st.markdown("#### Q6: Prompt start date, end date, and day name to calculate the number of days.")
+st.markdown("---\n#### Q6: Prompt start date, end date, and day name to calculate the number of days.")
 with st.expander("Instructions"):
     st.markdown("""**Original question**:
 > Write Python code
@@ -69,10 +69,10 @@ q6_start_date = q6_start_date_box.date_input("Start Date")
 q6_end_date = q6_end_date_box.date_input("End Date")
 ans6 = st.empty()
 if q6_day and q6_start_date and q6_end_date:
-    ans6.markdown(f"#### Answer: `Hello` - {q6_start_date}")
+    ans6.markdown(f"##### Answer: `Hello` - {q6_start_date}")
 
 
-st.markdown("#### Q7: Paste the `JSON` data provided in the question below.")
+st.markdown("---\n#### Q7: Paste the `JSON` data provided in the question below.")
 with st.expander("Instructions"):
     st.markdown("""**Original question**:           
 """)
@@ -81,3 +81,5 @@ if json_input:
     with st.container():
         st.markdown("##### Sorted JSON:")
         st.code("Hello")
+
+

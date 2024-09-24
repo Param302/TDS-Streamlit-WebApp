@@ -38,20 +38,19 @@ st.markdown("---\n#### Q4: DIY :)")
 
 st.markdown("---\n#### Q5: Paste the following code in console panel of _Developer Tools_ in your browser.")
 with st.expander("Instructions"):
-    st.markdown("""1. Open the Developer Tools in your browser.
-2. Go to the Console panel.
-3. Paste the code below in the Console panel.
-4. Press Enter to execute the code.
-5. Copy paste the result into the portal.)
-> **Note:** If you see a "_Don’t paste code into the DevTools Console..._" message, type `allow pasting` and hit Enter.
-
-**Original question**:
+    st.markdown("""**Original question**:
 > Use DevTools
 > 
 > Let's make sure you know how to use the browser's developer tools. Just above this paragraph and after the heading "5. Use DevTools", there's a hidden element with secret text.
 > 
 > What is the hidden text?
-""")
+
+1. Open the Developer Tools in your browser.
+2. Go to the Console panel.
+3. Paste the code below in the Console panel.
+4. Press Enter to execute the code.
+5. Copy paste the result into the portal.)
+> **Note:** If you see a "_Don’t paste code into the DevTools Console..._" message, type `allow pasting` and hit Enter.""")
 
 
 st.markdown("---\n#### Q6: Prompt start date, end date, and day name to calculate the number of days.")
@@ -80,6 +79,50 @@ json_input = st.text_area("Paste JSON data here", label_visibility="hidden")
 if json_input:
     with st.container():
         st.markdown("##### Sorted JSON:")
-        st.code("Hello")
+        st.code(f"Hello - {json_input}")
 
 
+st.markdown("---\n#### Q8: Paste the following code in console panel of _Developer Tools_ in your browser.")
+with st.expander("Instructions"):
+    st.markdown("""**Original question**:
+> Use CSS selectors
+> 
+> Let's make sure you know how to select elements using CSS selectors. Take all direct children of `<div>`s having a `foo` class. What's the sum of their `data-value` attributes?
+
+1. Open the Developer Tools in your browser.
+2. Go to the Console panel.
+3. Paste the code below in the Console panel.
+4. Press Enter to execute the code.
+5. Copy paste the result into the portal.)
+> **Note:** If you see a "_Don’t paste code into the DevTools Console..._" message, type `allow pasting` and hit Enter.
+
+""")
+
+
+st.markdown("---\n#### Q9: Paste your student mail ID and salt value below.")
+with st.expander("Instructions"):
+    st.markdown("""**Original question**:
+> Make HTTP requests
+> 
+> Let's make sure you know how to make HTTP requests. Send a HTTP POST request to https://httpbin.org/response-headers with the URL encoded parameter email set to `<roll_no>@.ds.study.iitm.ac.in` and the parameter salt set to `abcdefghijklmnopqrstuvwxyz0123456789`. What is the value of the `Content-Length` HTTP header in the response?""")
+
+q9_email_box, q9_salt_box = st.columns([1, 1])
+q9_email = q9_email_box.text_input("Enter Email ID", placeholder="<roll_no>@.ds.study.iitm.ac.in")
+q9_salt = q9_salt_box.text_input("Enter Salt", placeholder="abcdefghijklmnopqrstuvwxyz0123456789")
+ans9 = st.empty()
+if q9_email and q9_salt:
+    ans9.markdown(f"##### Answer: `Hello` - {q9_email}")
+
+st.markdown("---\n#### Q10: DIY :)")
+
+
+st.markdown("\n---\n")
+def show_all_answers():
+    ans1.markdown("##### Answer: `Hello`")
+    ans2.markdown("##### Answer: `Hello`")
+    ans6.markdown(f"##### Answer: `Hello` - {q6_start_date}")
+    ans9.markdown(f"##### Answer: `Hello` - {q9_email}")
+
+_, show_all, _ = st.columns([0.3, 0.4, 0.3])
+if show_all.button("Show All Answers", type="primary", use_container_width=True):
+    show_all_answers()

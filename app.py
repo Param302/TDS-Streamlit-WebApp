@@ -14,7 +14,7 @@ def show_answer_1():
 
 def show_answer_2():
     cloud_creds = json.loads(st.secrets["google_cloud"]["sheets_api_creds"])
-    value = calculate_gsheets_formula(q2_input, cloud_creds)
+    value = calculate_gsheets_formula(cloud_creds, q2_input)
     heading2.markdown("##### Answer:")
     ans2_box.code(value)
 
@@ -86,19 +86,19 @@ if q2_input:
 
 
 st.markdown(
-    "---\n#### Q3: Paste the _Microsoft 365 Excel_ formula to calculate the answer.")
-with st.expander("Instructions"):
-    st.markdown("""**Original question**:
-> Use Excel
-> 
-> Let's make sure you can write formulas in Excel. Type this formula into Excel. (It won't work in Google Sheets)
-""")
-q3_input = st.text_input("Paste the Formula below",
-                         placeholder="=SUM(TAKE(SORTBY({1,2,...,10}, {1,2,...,10}), 1, 2))", label_visibility="hidden", key="q3_input")
-ans3 = st.empty()
-heading3, ans3_box = ans3.columns([0.15, 0.8], vertical_alignment="center")
-if q3_input:
-    show_answer_3()
+    "---\n#### Q3: WIP 🛠️ ")
+# with st.expander("Instructions"):
+#     st.markdown("""**Original question**:
+# > Use Excel
+# > 
+# > Let's make sure you can write formulas in Excel. Type this formula into Excel. (It won't work in Google Sheets)
+# """)
+# q3_input = st.text_input("Paste the Formula below",
+#                          placeholder="=SUM(TAKE(SORTBY({1,2,...,10}, {1,2,...,10}), 1, 2))", label_visibility="hidden", key="q3_input")
+# ans3 = st.empty()
+# heading3, ans3_box = ans3.columns([0.15, 0.8], vertical_alignment="center")
+# if q3_input:
+#     show_answer_3()
 
 
 st.markdown(

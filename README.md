@@ -51,7 +51,7 @@ You'll need to set up **Google Cloud** for Google Sheets API integration and con
     ```bash
     touch secrets.toml
     ```
-3. **Create an app in Google Cloud console, enable `Google Sheets` and `Google Drive` APIs**, download credentials and add json credentials in `secrets.toml` file.**
+3. **Create an app in Google Cloud console, enable `Google Sheets` and `Google Drive` APIs, download credentials and add json credentials in `secrets.toml` file.**
     ```bash
     [google_cloud]
     sheets_api_creds="""<your_json_creds>"""
@@ -66,6 +66,6 @@ streamlit run app.py
 ```
 
 ## Contact Information
-### Developed with 🤍 by <img src="https://avatars.githubusercontent.com/u/76559816?v=4" width="40" style="border-radius:50%;">[Parampreet Singh](https://github.com/Param302) and <img src="https://avatars.githubusercontent.com/u/92159216?v=4" width="40" style="border-radius:50%;"> [Anant Luthra](https://github.com/AnantLuthra)
+### Developed with 🤍 by [Parampreet Singh](https://github.com/Param302) and [Anant Luthra](https://github.com/AnantLuthra)
 
 For enquiries, kindly reach out to [Parampreet Singh](https://param302.bio.link)

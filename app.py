@@ -237,5 +237,5 @@ st.markdown("""
 > **Disclaimer**: This web app is an unofficial tool created for the TDS Graded Assignment 0. It is intended solely for educational purposes, and we strongly discourage any form of academic dishonesty or unethical behavior. Additionally, we respect user privacy and do not store or collect any personal data shared throughout the app, except feedback rating.
 
 #### [GitHub Repository 🔗](https://github.com/Param302/TDS-Streamlit-WebApp)
-### Developed by<img src="https://avatars.githubusercontent.com/u/76559816?v=4" width="40" style="border-radius:50%;padding-bottom:10px;">[Parampreet Singh](https://github.com/Param302) and <img src="https://avatars.githubusercontent.com/u/92159216?v=4" width="40" style="border-radius:50%;padding-bottom:5px;"> [Anant Luthra](https://github.com/AnantLuthra)
+### Developed with 🤍 by<img src="https://avatars.githubusercontent.com/u/76559816?v=4" width="40" style="border-radius:50%;padding-bottom:10px;">[Parampreet Singh](https://github.com/Param302) and <img src="https://avatars.githubusercontent.com/u/92159216?v=4" width="40" style="border-radius:50%;padding-bottom:5px;"> [Anant Luthra](https://github.com/AnantLuthra)
 """, unsafe_allow_html=True)

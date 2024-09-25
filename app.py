@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import (json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_sorted_json, get_colab_code, get_hidden_text_code, get_css_selector_code)
+from utils import (json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_sorted_json, get_content_length_from_post_request, get_colab_code, get_hidden_text_code, get_css_selector_code)
 
 st.title("TDS Web App")
 st.markdown(
@@ -8,13 +8,15 @@ st.markdown(
 
 def show_answer_1():
     heading1.markdown("##### Answer:")
-    ans1_box.code(str(extract_value_from_zip(uploaded_file)))
+    value = str(extract_value_from_zip(uploaded_file))
+    ans1_box.code(value)
 
 
 def show_answer_2():
     cloud_creds = json.loads(st.secrets["google_cloud"]["sheets_api_creds"])
+    value = calculate_gsheets_formula(q2_input, cloud_creds)
     heading2.markdown("##### Answer:")
-    ans2_box.code(calculate_gsheets_formula(cloud_creds, q2_input))
+    ans2_box.code(value)
 
 
 def show_answer_3():
@@ -46,8 +48,9 @@ def show_answer_8():
 
 
 def show_answer_9():
+    content_length = get_content_length_from_post_request(q9_email, q9_salt)
     heading9.markdown("##### Answer (`Content-Length`):")
-    ans9_box.code("Hello")
+    ans9_box.code(content_length)
 
 
 st.markdown(
@@ -200,7 +203,7 @@ if q9_email and q9_salt:
     show_answer_9()
 
 st.markdown("---\n#### Q10: How much interesting do you find TDS subject?")
-ans10 = st.slider("From 1 (lowest) to 5 (highest)", 1, 5, 3)
+ans10 = st.slider("From 1 (_lowest_) to 5 (_highest_)", 1, 5, 3)
 
 # Footer
 st.markdown("""---

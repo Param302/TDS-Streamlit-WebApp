@@ -1,4 +1,5 @@
 import json
+import re
 import gspread
 import zipfile
 import requests
@@ -38,6 +39,7 @@ def calculate_gsheets_formula(gcloud_creds, expression: str) -> int:
     global row, col
 
     expression = f"={expression}" if not expression.startswith("=") else expression
+    expression = expression.strip()
     if not validate_expression(expression):
         return "Invalid formula"
     
@@ -120,7 +122,9 @@ def calculate_days(day: str, start_date: date, end_date: date) -> int:
 
 
 def get_sorted_json(json_data: str) -> str:
+    json_data = json_data.strip()
     data = json.loads(json_data)
+
     sorted_data = sorted(data, key=lambda x: (x['age'], x['name']))
     return json.dumps(sorted_data, separators=(',', ':'))
 
@@ -138,7 +142,16 @@ def get_css_selector_code() -> str:
 })();"""
 
 
+def valid_email(email: str) -> bool:
+    pattern = re.compile(r'^(2[1-9])(f|ds|dp)[1-3]\d{6}@(ds|es)\.study\.iitm\.ac\.in$')
+    return bool(pattern.match(email))
+
+
 def get_content_length_from_post_request(email: str, salt: str) -> str:
+    email = email.strip()
+    if not valid_email(email):
+        return "Invalid email, please enter valid Student email ID"
+
     url = 'https://httpbin.org/response-headers'
     params = {
         'email': email,
@@ -150,4 +163,4 @@ def get_content_length_from_post_request(email: str, salt: str) -> str:
         json_response = response.json()
         return json_response['Content-Length']
     else:
-        return "Some error eccored"
+        return f"Some error occurred: {response.status_code} - {response.text}"

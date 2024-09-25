@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import get_colab_code, get_hidden_text_code, get_css_selector_code
+from utils import get_colab_code, get_hidden_text_code, get_css_selector_code, extract_value_from_zip
 
 st.title("TDS Web App")
 st.markdown(
@@ -8,7 +8,7 @@ st.markdown(
 
 def show_answer_1():
     heading1.markdown("##### Answer:")
-    ans1_box.code("Hello")
+    ans1_box.code(str(extract_value_from_zip(uploaded_file)))
 
 
 def show_answer_2():

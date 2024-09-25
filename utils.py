@@ -1,14 +1,29 @@
 import json
+import zipfile
 import requests
+import numpy as np
+import pandas as pd
 from datetime import datetime, timedelta
 
 
-def extract_csv_from_zip(zip_file: str) -> str:
-    ...
+def extract_value_from_zip(zip_file: str) -> str:
+    with zipfile.ZipFile(zip_file) as z:
+        file_list = z.namelist()
 
+        csv_files = [file_name for file_name in file_list if file_name.endswith(".csv")]
 
-def get_value_from_csv(csv_file: str) -> int:
-    ...
+        if not csv_files:
+            return "No CSV file found in the ZIP."
+
+        if len(csv_files) > 1:
+            return "Multiple CSV files found. Please upload a ZIP with only one CSV file."
+
+        with z.open(csv_files[0]) as f:
+            df = pd.read_csv(f)
+            if "answer" not in df.columns:
+                return "The CSV file does not contain a column named 'answer'."
+
+            return df.loc[0, "answer"]
 
 
 def calculate_gsheets_formula(expression: str) -> int:
@@ -17,6 +32,25 @@ def calculate_gsheets_formula(expression: str) -> int:
 
 def calculate_ms_excel_formula(formula: str) -> int:
     ...
+
+
+
+def sum_sorted_taken(array1, array2, y):
+    # Convert lists to numpy arrays if they aren't already
+    array1 = np.array(array1)
+    array2 = np.array(array2)
+
+    # Sort array1 by array2
+    sorted_indices = np.argsort(array2)
+    sorted_array1 = array1[sorted_indices]
+
+    # Take the first y elements
+    taken_elements = sorted_array1[:y]
+
+    # Sum the taken elements
+    total_sum = np.sum(taken_elements)
+
+    return total_sum
 
 def get_colab_code() -> str:
     return """import hashlib

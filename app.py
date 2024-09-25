@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import (json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_colab_code, get_hidden_text_code, get_css_selector_code)
+from utils import (json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_sorted_json, get_colab_code, get_hidden_text_code, get_css_selector_code)
 
 st.title("TDS Web App")
 st.markdown(
@@ -37,7 +37,7 @@ def show_answer_6():
 
 def show_answer_7():
     ans7.markdown("##### Sorted JSON:")
-    ans7.code(f"Hello - {json_input}")
+    ans7.code(get_sorted_json(json_input), language="json", wrap_lines=True)
 
 
 def show_answer_8():
@@ -158,7 +158,7 @@ st.markdown(
 with st.expander("Instructions"):
     st.markdown("""**Original question**:
 > Sort this JSON array of objects by the value of the `age` field. In case of a tie, sort by the `name` field. Paste the resulting JSON below without any spaces or newlines.""")
-json_input = st.text_area("Paste JSON data here", label_visibility="hidden")
+json_input = st.text_area("Paste JSON data here", height=150, label_visibility="hidden")
 ans7 = st.empty()
 if json_input:
     show_answer_7()

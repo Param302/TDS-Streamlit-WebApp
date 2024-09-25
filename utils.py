@@ -1,10 +1,14 @@
 import json
+import gspread
 import zipfile
 import requests
 import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
+from oauth2client.service_account import ServiceAccountCredentials
 
+row = 1
+col = "A"
 
 def extract_value_from_zip(zip_file: str) -> str:
     with zipfile.ZipFile(zip_file) as z:
@@ -26,8 +30,34 @@ def extract_value_from_zip(zip_file: str) -> str:
             return df.loc[0, "answer"]
 
 
-def calculate_gsheets_formula(expression: str) -> int:
-    ...
+def validate_expression(expression: str) -> bool:
+    return expression.count("=") == 1 and expression.count("(") == expression.count(")")
+
+
+def calculate_gsheets_formula(gcloud_creds, expression: str) -> int:
+    global row, col
+
+    expression = f"={expression}" if not expression.startswith("=") else expression
+    if not validate_expression(expression):
+        return "Invalid formula"
+    
+    if row > 100:
+        row = 1
+        col = chr(ord(col) + 1)
+    cell = f"{col}{row}"
+
+    scope = ['https://spreadsheets.google.com/feeds',
+         'https://www.googleapis.com/auth/drive']
+    
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(gcloud_creds, scope)
+    client = gspread.authorize(creds)
+    sheet = client.open('TDS Streamlit Web App').sheet1
+    sheet.update_acell(cell, expression)
+    row += 1
+    value = sheet.get_values(cell)[0][0]
+    if value.isdigit():
+        return int(value)
+    return f"Some error occurred: {value}"
 
 
 def calculate_ms_excel_formula(formula: str) -> int:
@@ -51,6 +81,7 @@ def sum_sorted_taken(array1, array2, y):
     total_sum = np.sum(taken_elements)
 
     return total_sum
+
 
 def get_colab_code() -> str:
     return """import hashlib

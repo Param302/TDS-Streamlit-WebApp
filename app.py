@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import get_colab_code, get_hidden_text_code, get_css_selector_code, extract_value_from_zip
+from utils import calculate_gsheets_formula, json, get_colab_code, get_hidden_text_code, get_css_selector_code, extract_value_from_zip
 
 st.title("TDS Web App")
 st.markdown(
@@ -12,8 +12,9 @@ def show_answer_1():
 
 
 def show_answer_2():
+    cloud_creds = json.loads(st.secrets["google_cloud"]["sheets_api_creds"])
     heading2.markdown("##### Answer:")
-    ans2_box.code("Hello")
+    ans2_box.code(calculate_gsheets_formula(cloud_creds, q2_input))
 
 
 def show_answer_3():

@@ -11,11 +11,13 @@ from oauth2client.service_account import ServiceAccountCredentials
 frow, row = 1, 1
 fcol, col = "A", "A"
 
+
 def extract_value_from_zip(zip_file: str) -> str:
     with zipfile.ZipFile(zip_file) as z:
         file_list = z.namelist()
 
-        csv_files = [file_name for file_name in file_list if file_name.endswith(".csv")]
+        csv_files = [
+            file_name for file_name in file_list if file_name.endswith(".csv")]
 
         if not csv_files:
             return "No CSV file found in the ZIP."
@@ -38,20 +40,22 @@ def validate_expression(expression: str) -> bool:
 def calculate_gsheets_formula(gcloud_creds: dict, expression: str) -> int:
     global row, col
 
-    expression = f"={expression}" if not expression.startswith("=") else expression
+    expression = f"={expression}" if not expression.startswith(
+        "=") else expression
     expression = expression.strip()
     if not validate_expression(expression):
         return "Invalid formula"
-    
+
     if row > 100:
         row = 1
         col = chr(ord(col) + 1)
     cell = f"{col}{row}"
 
     scope = ['https://spreadsheets.google.com/feeds',
-         'https://www.googleapis.com/auth/drive']
-    
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(gcloud_creds, scope)
+             'https://www.googleapis.com/auth/drive']
+
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(
+        gcloud_creds, scope)
     client = gspread.authorize(creds)
     sheet = client.open('TDS Streamlit Web App').sheet1
     sheet.clear()
@@ -63,27 +67,46 @@ def calculate_gsheets_formula(gcloud_creds: dict, expression: str) -> int:
     return f"Some error occurred: {value}"
 
 
-def calculate_ms_excel_formula(formula: str) -> int:
-    ...
+def validate_ms_excel_expression(expression: str) -> bool:
+    pattern = re.compile(r"=SUM\(\s*TAKE\(\s*SORTBY\(\s*\{(\d+\s*,\s*)*\d+\}\s*,\s*\{(\d+\s*,\s*)*\d+\}\s*\)\s*,\s*\d+\s*(,\s*\d+)?\s*\)\s*\)")
+
+    return bool(pattern.match(expression))
 
 
+def split_params(expression: str) -> tuple:
+    data1 = list(map(int, expression[expression.find("{"):expression.find("}")+1][1:-1].split(",")))
+    data2 = list(map(int, expression[expression.rfind("{"):expression.rfind("}")+1][1:-1].split(",")))
 
-def sum_sorted_taken(array1, array2, y):
-    # Convert lists to numpy arrays if they aren't already
+    _, x, y = expression.strip("))").rsplit(",", 2)
+    x = int(x.strip())
+    y = int(y.strip())
+
+    return data1, data2, x, y
+
+
+def sum_take_sortby(array1: list, array2: list, x: int, y: int = None) -> int:
     array1 = np.array(array1)
     array2 = np.array(array2)
 
-    # Sort array1 by array2
     sorted_indices = np.argsort(array2)
     sorted_array1 = array1[sorted_indices]
 
-    # Take the first y elements
-    taken_elements = sorted_array1[:y]
+    if y is None:
+        result = sorted_array1
+    else:
+        result = sorted_array1[:y]
 
-    # Sum the taken elements
-    total_sum = np.sum(taken_elements)
+    return np.sum(result)
 
-    return total_sum
+
+def calculate_ms_excel_formula(expression: str) -> int:
+    expression = f"={expression}" if not expression.startswith(
+        "=") else expression
+    expression = expression.strip()
+    if not validate_ms_excel_expression(expression):
+        return "Invalid formula"
+    
+    return sum_take_sortby(*split_params(expression))
 
 
 def get_colab_code() -> str:
@@ -144,7 +167,8 @@ def get_css_selector_code() -> str:
 
 
 def valid_email(email: str) -> bool:
-    pattern = re.compile(r'^(2[1-9])(f|ds|dp)[1-3]\d{6}@(ds|es)\.study\.iitm\.ac\.in$')
+    pattern = re.compile(
+        r'^(2[1-9])(f|ds|dp)[1-3]\d{6}@(ds|es)\.study\.iitm\.ac\.in$')
     return bool(pattern.match(email))
 
 
@@ -176,9 +200,10 @@ def store_feedback(gcloud_creds: dict, feedback: int) -> None:
     cell = f"{fcol}{frow}"
 
     scope = ['https://spreadsheets.google.com/feeds',
-         'https://www.googleapis.com/auth/drive']
-    
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(gcloud_creds, scope)
+             'https://www.googleapis.com/auth/drive']
+
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(
+        gcloud_creds, scope)
     client = gspread.authorize(creds)
     sheet = client.open('TDS Streamlit Web App').get_worksheet(1)
     sheet.update_acell(cell, feedback+1)

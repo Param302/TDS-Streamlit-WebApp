@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import (date, json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_sorted_json, get_content_length_from_post_request, get_colab_code, get_hidden_text_code, get_css_selector_code, store_feedback)
+from utils import (date, json, extract_value_from_zip, calculate_gsheets_formula, calculate_ms_excel_formula, calculate_days, get_sorted_json, get_content_length_from_post_request, get_colab_code, get_hidden_text_code, get_css_selector_code, store_feedback)
 
 
 st.set_page_config(
@@ -28,7 +28,7 @@ def show_answer_2():
 
 def show_answer_3():
     heading3.markdown("##### Answer:")
-    ans3_box.code("Hello")
+    ans3_box.code(str(calculate_ms_excel_formula(q3_input)))
 
 
 def show_answer_4():
@@ -103,19 +103,19 @@ if q2_input:
 
 
 st.markdown(
-    "---\n#### Q3: WIP 🛠️ ")
-# with st.expander("Instructions"):
-#     st.markdown("""**Original question**:
-# > Use Excel
-# > 
-# > Let's make sure you can write formulas in Excel. Type this formula into Excel. (It won't work in Google Sheets)
-# """)
-# q3_input = st.text_input("Paste the Formula below",
-#                          placeholder="=SUM(TAKE(SORTBY({1,2,...,10}, {1,2,...,10}), 1, 2))", label_visibility="hidden", key="q3_input")
-# ans3 = st.empty()
-# heading3, ans3_box = ans3.columns([0.15, 0.8], vertical_alignment="center")
-# if q3_input:
-#     show_answer_3()
+    "---\n#### Q3: Paste the _Microsoft 365 Excel_ formula to calculate the answer.")
+with st.expander("Instructions"):
+    st.markdown("""**Original question**:
+> Use Excel
+> 
+> Let's make sure you can write formulas in Excel. Type this formula into Excel. (It won't work in Google Sheets)
+""")
+q3_input = st.text_input("Paste the Formula below",
+                         placeholder="=SUM(TAKE(SORTBY({1,2,...,10}, {1,2,...,10}), 1, 2))", label_visibility="hidden", key="q3_input")
+ans3 = st.empty()
+heading3, ans3_box = ans3.columns([0.15, 0.8], vertical_alignment="center")
+if q3_input:
+    show_answer_3()
 
 
 st.markdown(

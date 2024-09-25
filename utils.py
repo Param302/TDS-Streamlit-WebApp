@@ -5,7 +5,7 @@ import zipfile
 import requests
 import numpy as np
 import pandas as pd
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from oauth2client.service_account import ServiceAccountCredentials
 
 row = 1

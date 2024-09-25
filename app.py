@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import (json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_sorted_json, get_content_length_from_post_request, get_colab_code, get_hidden_text_code, get_css_selector_code)
+from utils import (date, json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_sorted_json, get_content_length_from_post_request, get_colab_code, get_hidden_text_code, get_css_selector_code)
 
 st.title("TDS Web App")
 st.markdown(
@@ -148,8 +148,8 @@ with st.expander("Instructions"):
 q6_day_box, q6_start_date_box, q6_end_date_box = st.columns([1, 1, 1])
 q6_day = q6_day_box.selectbox("Select Day", [
                               "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], index=2)
-q6_start_date = q6_start_date_box.date_input("Start Date")
-q6_end_date = q6_end_date_box.date_input("End Date")
+q6_start_date = q6_start_date_box.date_input("Start Date", min_value=date(2000, 1, 1), max_value=date(2030, 12, 31))
+q6_end_date = q6_end_date_box.date_input("End Date", min_value=date(2000, 1, 1), max_value=date(2030, 12, 31))
 ans6 = st.empty()
 heading6, ans6_box = ans6.columns([0.15, 0.8], vertical_alignment="center")
 if q6_day and q6_start_date and q6_end_date:
@@ -192,7 +192,7 @@ with st.expander("Instructions"):
 > 
 > Let's make sure you know how to make HTTP requests. Send a HTTP POST request to https://httpbin.org/response-headers with the URL encoded parameter email set to `<roll_no>@.ds.study.iitm.ac.in` and the parameter salt set to `abcdefghijklmnopqrstuvwxyz0123456789`. What is the value of the `Content-Length` HTTP header in the response?""")
 
-q9_email_box, q9_salt_box = st.columns([1, 1])
+q9_email_box, q9_salt_box = st.columns([1, 1], vertical_alignment="center")
 q9_email = q9_email_box.text_input(
     "Enter Email ID", placeholder="<roll_no>@.ds.study.iitm.ac.in")
 q9_salt = q9_salt_box.text_input(

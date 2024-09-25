@@ -4,7 +4,7 @@ import zipfile
 import requests
 import numpy as np
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from oauth2client.service_account import ServiceAccountCredentials
 
 row = 1
@@ -101,30 +101,20 @@ email = response.json()['email']
 hashlib.sha256(f'{email} {creds.token_expiry.year}'.encode()).hexdigest()[-5:]"""
 
 
-def get_hidden_text_code():
+def get_hidden_text_code() -> str:
     return """document.getElementById("q5-message").innerText;"""
 
 
-def calculate_days(day: str, start_date: str, end_date: str) -> int:
-    """
-    Example parameters
-    sd = "2022-03-20"
-    ed = "2022-08-10"
-    day = "Wednesday"
-    """
-    sd = list(map(int, start_date.split("-")))
-    date = datetime(sd[0], sd[1], sd[2])
+def calculate_days(day: str, start_date: date, end_date: date) -> int:
+    if start_date > end_date:
+        return "Invalid date range"
+
     target = 0  # count of that particular day for which we're searching for
 
-    while (str(date.date()) != end_date):
-        if date.strftime("%A") == day.capitalize():
+    while (start_date <= end_date):
+        if start_date.strftime("%A") == day.capitalize():
             target += 1
-        date = date + timedelta(days=1)
-
-    ed = list(map(int, end_date.split("-")))
-    date1 = datetime(ed[0], ed[1], ed[2])
-    if date1.strftime("%A") == day.capitalize():
-        target += 1
+        start_date = start_date + timedelta(days=1)
 
     return target
 

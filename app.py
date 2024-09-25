@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import calculate_gsheets_formula, json, get_colab_code, get_hidden_text_code, get_css_selector_code, extract_value_from_zip
+from utils import (json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_colab_code, get_hidden_text_code, get_css_selector_code)
 
 st.title("TDS Web App")
 st.markdown(
@@ -32,7 +32,7 @@ def show_answer_5():
 
 def show_answer_6():
     heading6.markdown("##### Answer:")
-    ans6_box.code("Hello")
+    ans6_box.code(str(calculate_days(q6_day, q6_start_date, q6_end_date)))
 
 
 def show_answer_7():

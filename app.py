@@ -1,9 +1,10 @@
 import streamlit as st
+from utils import get_colab_code, get_hidden_text_code, get_css_selector_code
 
 st.title("TDS Web App")
-st.subheader("Made by Parampreet Singh and Anant Luthra")
 st.markdown(
     "_This is an unofficial web app for the **TDS Graded Assignment 0**_.")
+
 
 def show_answer_1():
     heading1.markdown("##### Answer:")
@@ -21,11 +22,11 @@ def show_answer_3():
 
 
 def show_answer_4():
-    ans4.code("Hello")
+    ans4.code(get_colab_code(), line_numbers=True)
 
 
 def show_answer_5():
-    ans5.code("Hello")
+    ans5.code(get_hidden_text_code(), language="javascript")
 
 
 def show_answer_6():
@@ -39,17 +40,21 @@ def show_answer_7():
 
 
 def show_answer_8():
-    ans8.code("Hello")
+    ans8.code(get_css_selector_code(),
+              language="javascript", line_numbers=True)
 
 
 def show_answer_9():
     heading9.markdown("##### Answer (`Content-Length`):")
     ans9_box.code("Hello")
 
+
 st.markdown(
-    '---\n#### Q1: What is the value in the "_answer_" column of `q1.csv`?')
+    '---\n#### Q1: Upload the ZIP file to get the answer.')
 with st.expander("Instructions"):
-    st.markdown("""1. Download the ZIP file from the link provided in [portal](https://tools-in-data-science.pages.dev/ga0).
+    st.markdown("""**Original Question**:
+> What is the value in the "_answer_" column of `q1.csv`?
+1. Download the ZIP file from the link provided in portal.
 2. Upload the ZIP file below.""")
 
 uploaded_file = st.file_uploader(
@@ -60,7 +65,7 @@ if uploaded_file is not None:
     show_answer_1()
 
 st.markdown(
-    "---\n#### Q2: Paste the Google Sheet formula to calculate the answer.")
+    "---\n#### Q2: Paste the _Google Sheet_ formula to calculate the answer.")
 with st.expander("Instructions"):
     st.markdown("""**Original question**:
 > Use Google Sheets
@@ -77,7 +82,7 @@ if q2_input:
 
 
 st.markdown(
-    "---\n#### Q3: Paste the Microsoft 365 Excel formula to calculate answer in")
+    "---\n#### Q3: Paste the _Microsoft 365 Excel_ formula to calculate the answer.")
 with st.expander("Instructions"):
     st.markdown("""**Original question**:
 > Use Excel
@@ -107,7 +112,7 @@ show_answer_4()
 
 
 st.markdown(
-    "---\n#### Q5: Paste the following code in console panel of _Developer Tools_ in your browser.")
+    "---\n#### Q5: Paste the code below into your browser's _Developer Tools_ console to reveal the hidden text.")
 with st.expander("Instructions"):
     st.markdown("""**Original question**:
 > Use DevTools
@@ -127,7 +132,7 @@ show_answer_5()
 
 
 st.markdown(
-    "---\n#### Q6: Prompt start date, end date, and day name to calculate the number of days.")
+    "---\n#### Q6: Enter the start date, end date, and day of the week to calculate the total number of days.")
 with st.expander("Instructions"):
     st.markdown("""**Original question**:
 > Write Python code
@@ -147,18 +152,19 @@ if q6_day and q6_start_date and q6_end_date:
     show_answer_6()
 
 
-st.markdown("---\n#### Q7: Paste the `JSON` data provided in the question below.")
+st.markdown(
+    "---\n#### Q7: Paste the provided `JSON` data below to get it sorted.")
 with st.expander("Instructions"):
     st.markdown("""**Original question**:           
 """)
 json_input = st.text_area("Paste JSON data here", label_visibility="hidden")
 ans7 = st.empty()
 if json_input:
-        show_answer_7()
+    show_answer_7()
 
 
 st.markdown(
-    "---\n#### Q8: Paste the following code in console panel of _Developer Tools_ in your browser.")
+    "---\n#### Q8: Paste the code below into your browser's _Developer Tools_ console to sum the `data-value` attributes.")
 with st.expander("Instructions"):
     st.markdown("""**Original question**:
 > Use CSS selectors
@@ -200,5 +206,5 @@ st.markdown("""---
 > **Disclaimer**: This web app is an unofficial tool created for the TDS Graded Assignment 0. It is intended solely for educational purposes, and we strongly discourage any form of academic dishonesty or unethical behavior. Additionally, we respect user privacy and do not store or collect any personal data submitted through this app.
 
 #### [GitHub Repository 🔗](https://github.com/Param302/TDS-Streamlit-WebApp)
-### Developed by <img src="https://avatars.githubusercontent.com/u/76559816?v=4" width="40" style="border-radius:50%;padding-bottom:10px;margin:0 2px"> [Parampreet Singh](https://github.com/Param302) and <img src="https://avatars.githubusercontent.com/u/92159216?v=4" width="40" style="border-radius:50%;padding-bottom:5px;margin:0 2px"> [Anant Luthra](https://github.com/AnantLuthra)
+### Developed by<img src="https://avatars.githubusercontent.com/u/76559816?v=4" width="40" style="border-radius:50%;padding-bottom:10px;">[Parampreet Singh](https://github.com/Param302) and <img src="https://avatars.githubusercontent.com/u/92159216?v=4" width="40" style="border-radius:50%;padding-bottom:5px;"> [Anant Luthra](https://github.com/AnantLuthra)
 """, unsafe_allow_html=True)

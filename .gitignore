@@ -2,3 +2,4 @@
 env/
 .streamlit/*
 ms/
+__pycache__/

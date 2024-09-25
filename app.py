@@ -155,8 +155,8 @@ if q6_day and q6_start_date and q6_end_date:
 st.markdown(
     "---\n#### Q7: Paste the provided `JSON` data below to get it sorted.")
 with st.expander("Instructions"):
-    st.markdown("""**Original question**:           
-""")
+    st.markdown("""**Original question**:
+> Sort this JSON array of objects by the value of the `age` field. In case of a tie, sort by the `name` field. Paste the resulting JSON below without any spaces or newlines.""")
 json_input = st.text_area("Paste JSON data here", label_visibility="hidden")
 ans7 = st.empty()
 if json_input:

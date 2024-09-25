@@ -1,9 +1,16 @@
 import streamlit as st
 from utils import (date, json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_sorted_json, get_content_length_from_post_request, get_colab_code, get_hidden_text_code, get_css_selector_code, store_feedback)
 
-st.title("TDS Web App")
+
+st.set_page_config(
+    page_title="TDS GA 0 Helper App",
+    page_icon="🛠️"
+)
+
+
+st.title("TDS GA 0 Helper App")
 st.markdown(
-    "_This is an unofficial web app for the **TDS Graded Assignment 0**_.")
+    "_This is an unofficial helper app for the **TDS Graded Assignment 0**_.")
 
 
 def show_answer_1():

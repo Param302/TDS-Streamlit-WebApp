@@ -7,4 +7,5 @@ It is made to help students by sharing the approach and detailed steps to approa
 ### To Do:
 - [ ] Readme
 - [ ] Add 3rd question
-- [ ] Add Feedback star
+- [x] Add title and icon
+- [x] Add Feedback star

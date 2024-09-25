@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import (date, json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_sorted_json, get_content_length_from_post_request, get_colab_code, get_hidden_text_code, get_css_selector_code)
+from utils import (date, json, extract_value_from_zip, calculate_gsheets_formula, calculate_days, get_sorted_json, get_content_length_from_post_request, get_colab_code, get_hidden_text_code, get_css_selector_code, store_feedback)
 
 st.title("TDS Web App")
 st.markdown(
@@ -30,6 +30,16 @@ def show_answer_4():
 
 def show_answer_5():
     ans5.code(get_hidden_text_code(), language="javascript")
+
+
+def collect_rating():
+    cloud_creds = json.loads(st.secrets["google_cloud"]["sheets_api_creds"])
+
+    if (f1:=st.session_state.get("feedbackarea1_ans", None)):
+        store_feedback(cloud_creds, f1)
+    
+    if (f2:=st.session_state.get("feedbackarea2_ans", None)):
+        store_feedback(cloud_creds, f2)
 
 
 def show_answer_6():
@@ -134,9 +144,12 @@ with st.expander("Instructions"):
 ans5 = st.empty()
 show_answer_5()
 
+feedbackarea1 = st.container(border=True)
+feedbackarea1.write("#### Enjoying our app? Please rate it.\n_Your feedback is valuable to us._\n")
+feedbackarea1_ans = feedbackarea1.feedback("stars", on_change=collect_rating, key="feedbackarea1_ans")
 
 st.markdown(
-    "---\n#### Q6: Enter the start date, end date, and day of the week to calculate the total number of days.")
+    "#### Q6: Enter the start date, end date, and day of the week to calculate the total number of days.")
 with st.expander("Instructions"):
     st.markdown("""**Original question**:
 > Write Python code
@@ -204,10 +217,17 @@ if q9_email and q9_salt:
 
 st.markdown("---\n#### Q10: How much interesting do you find TDS subject?")
 ans10 = st.slider("From 1 (_lowest_) to 5 (_highest_)", 1, 5, 3)
+st.markdown("---")
+
+if not feedbackarea1_ans and ans10:
+    feedbackarea2 = st.container(border=True)
+    feedbackarea2.write("#### Do you like this app? Please rate it.\n_Your feedback is valuable to us._\n")
+    feedbackarea2_ans = feedbackarea2.feedback("stars", on_change=collect_rating, key="feedbackarea2_ans")
+
 
 # Footer
-st.markdown("""---
-> **Disclaimer**: This web app is an unofficial tool created for the TDS Graded Assignment 0. It is intended solely for educational purposes, and we strongly discourage any form of academic dishonesty or unethical behavior. Additionally, we respect user privacy and do not store or collect any personal data submitted through this app.
+st.markdown("""
+> **Disclaimer**: This web app is an unofficial tool created for the TDS Graded Assignment 0. It is intended solely for educational purposes, and we strongly discourage any form of academic dishonesty or unethical behavior. Additionally, we respect user privacy and do not store or collect any personal data shared throughout the app, except feedback rating.
 
 #### [GitHub Repository 🔗](https://github.com/Param302/TDS-Streamlit-WebApp)
 ### Developed by<img src="https://avatars.githubusercontent.com/u/76559816?v=4" width="40" style="border-radius:50%;padding-bottom:10px;">[Parampreet Singh](https://github.com/Param302) and <img src="https://avatars.githubusercontent.com/u/92159216?v=4" width="40" style="border-radius:50%;padding-bottom:5px;"> [Anant Luthra](https://github.com/AnantLuthra)

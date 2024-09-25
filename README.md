@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# [TDS GA 0 Helper App](https://tds-webapp.streamlit.app)
+# [TDS GA 0 Helper App 🛠️](https://tds-webapp.streamlit.app)
 
 This is an unofficial helper app for the **TDS Graded Assignment 0** in the IIT Madras BS Degree program. It is made to help students by sharing the approach and detailed steps to approach the questions in TDS Assignments.
 

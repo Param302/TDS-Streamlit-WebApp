@@ -1,12 +1,10 @@
-import json
 import re
-import gspread
+import json
 import zipfile
 import requests
 import numpy as np
 import pandas as pd
 from datetime import date, timedelta
-from oauth2client.service_account import ServiceAccountCredentials
 
 frow, row = 1, 1
 fcol, col = "A", "A"
@@ -37,7 +35,7 @@ def validate_expression(expression: str) -> bool:
     return expression.count("=") == 1 and expression.count("(") == expression.count(")")
 
 
-def calculate_gsheets_formula(gcloud_creds: dict, expression: str) -> int:
+def calculate_gsheets_formula(client, expression: str) -> int:
     global row, col
 
     expression = f"={expression}" if not expression.startswith(
@@ -51,12 +49,6 @@ def calculate_gsheets_formula(gcloud_creds: dict, expression: str) -> int:
         col = chr(ord(col) + 1)
     cell = f"{col}{row}"
 
-    scope = ['https://spreadsheets.google.com/feeds',
-             'https://www.googleapis.com/auth/drive']
-
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(
-        gcloud_creds, scope)
-    client = gspread.authorize(creds)
     sheet = client.open('TDS Streamlit Web App').sheet1
     sheet.clear()
     sheet.update_acell(cell, expression)
@@ -68,14 +60,17 @@ def calculate_gsheets_formula(gcloud_creds: dict, expression: str) -> int:
 
 
 def validate_ms_excel_expression(expression: str) -> bool:
-    pattern = re.compile(r"=SUM\(\s*TAKE\(\s*SORTBY\(\s*\{(\d+\s*,\s*)*\d+\}\s*,\s*\{(\d+\s*,\s*)*\d+\}\s*\)\s*,\s*\d+\s*(,\s*\d+)?\s*\)\s*\)")
+    pattern = re.compile(
+        r"=SUM\(\s*TAKE\(\s*SORTBY\(\s*\{(\d+\s*,\s*)*\d+\}\s*,\s*\{(\d+\s*,\s*)*\d+\}\s*\)\s*,\s*\d+\s*(,\s*\d+)?\s*\)\s*\)")
 
     return bool(pattern.match(expression))
 
 
 def split_params(expression: str) -> tuple:
-    data1 = list(map(int, expression[expression.find("{"):expression.find("}")+1][1:-1].split(",")))
-    data2 = list(map(int, expression[expression.rfind("{"):expression.rfind("}")+1][1:-1].split(",")))
+    data1 = list(map(int, expression[expression.find(
+        "{"):expression.find("}")+1][1:-1].split(",")))
+    data2 = list(map(int, expression[expression.rfind(
+        "{"):expression.rfind("}")+1][1:-1].split(",")))
 
     _, x, y = expression.strip("))").rsplit(",", 2)
     x = int(x.strip())
@@ -105,7 +100,7 @@ def calculate_ms_excel_formula(expression: str) -> int:
     expression = expression.strip()
     if not validate_ms_excel_expression(expression):
         return "Invalid formula"
-    
+
     return sum_take_sortby(*split_params(expression))
 
 
@@ -191,7 +186,7 @@ def get_content_length_from_post_request(email: str, salt: str) -> str:
         return f"Some error occurred: {response.status_code} - {response.text}"
 
 
-def store_feedback(gcloud_creds: dict, feedback: int) -> None:
+def store_feedback(client, feedback: int) -> None:
     global frow, fcol
 
     if frow > 100:
@@ -199,12 +194,6 @@ def store_feedback(gcloud_creds: dict, feedback: int) -> None:
         fcol = chr(ord(col) + 1)
     cell = f"{fcol}{frow}"
 
-    scope = ['https://spreadsheets.google.com/feeds',
-             'https://www.googleapis.com/auth/drive']
-
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(
-        gcloud_creds, scope)
-    client = gspread.authorize(creds)
     sheet = client.open('TDS Streamlit Web App').get_worksheet(1)
     sheet.update_acell(cell, feedback+1)
     frow += 1

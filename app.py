@@ -1,4 +1,6 @@
+import gspread
 import streamlit as st
+from oauth2client.service_account import ServiceAccountCredentials
 from utils import (date, json, extract_value_from_zip, calculate_gsheets_formula, calculate_ms_excel_formula, calculate_days, get_sorted_json, get_content_length_from_post_request, get_colab_code, get_hidden_text_code, get_css_selector_code, store_feedback)
 
 
@@ -12,6 +14,18 @@ st.title("TDS GA 0 Helper App")
 st.markdown(
     "_This is an unofficial helper app for the **TDS Graded Assignment 0**_.")
 
+@st.cache_resource
+def get_gsheet_client():
+    scope = ['https://spreadsheets.google.com/feeds',
+             'https://www.googleapis.com/auth/drive']
+    
+    gcloud_creds = json.loads(st.secrets["google_cloud"]["sheets_api_creds"])
+
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(
+        gcloud_creds, scope)
+    return gspread.authorize(creds)
+
+
 
 def show_answer_1():
     heading1.markdown("##### Answer:")
@@ -20,8 +34,8 @@ def show_answer_1():
 
 
 def show_answer_2():
-    cloud_creds = json.loads(st.secrets["google_cloud"]["sheets_api_creds"])
-    value = calculate_gsheets_formula(cloud_creds, q2_input)
+    client = get_gsheet_client()
+    value = calculate_gsheets_formula(client, q2_input)
     heading2.markdown("##### Answer:")
     ans2_box.code(value)
 
@@ -40,13 +54,13 @@ def show_answer_5():
 
 
 def collect_rating():
-    cloud_creds = json.loads(st.secrets["google_cloud"]["sheets_api_creds"])
+    client = get_gsheet_client()
 
     if (f1:=st.session_state.get("feedbackarea1_ans", None)):
-        store_feedback(cloud_creds, f1)
+        store_feedback(client, f1)
     
     if (f2:=st.session_state.get("feedbackarea2_ans", None)):
-        store_feedback(cloud_creds, f2)
+        store_feedback(client, f2)
 
 
 def show_answer_6():

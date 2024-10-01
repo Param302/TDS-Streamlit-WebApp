@@ -160,7 +160,7 @@ with st.expander("Instructions"):
 2. Go to the Console panel.
 3. Paste the code below in the Console panel.
 4. Press Enter to execute the code.
-5. Copy paste the result into the portal.)
+5. Copy paste the result into the portal.
 > **Note:** If you see a "_Don’t paste code into the DevTools Console..._" message, type `allow pasting` and hit Enter.""")
 ans5 = st.empty()
 show_answer_5()
@@ -213,7 +213,7 @@ with st.expander("Instructions"):
 2. Go to the Console panel.
 3. Paste the code below in the Console panel.
 4. Press Enter to execute the code.
-5. Copy paste the result into the portal.)
+5. Copy paste the result into the portal.
 > **Note:** If you see a "_Don’t paste code into the DevTools Console..._" message, type `allow pasting` and hit Enter.""")
 ans8 = st.empty()
 show_answer_8()
@@ -224,11 +224,11 @@ with st.expander("Instructions"):
     st.markdown("""**Original question**:
 > Make HTTP requests
 > 
-> Let's make sure you know how to make HTTP requests. Send a HTTP POST request to https://httpbin.org/response-headers with the URL encoded parameter email set to `<roll_no>@.ds.study.iitm.ac.in` and the parameter salt set to `abcdefghijklmnopqrstuvwxyz0123456789`. What is the value of the `Content-Length` HTTP header in the response?""")
+> Let's make sure you know how to make HTTP requests. Send a HTTP POST request to https://httpbin.org/response-headers with the URL encoded parameter email set to `<roll_no>@ds.study.iitm.ac.in` and the parameter salt set to `abcdefghijklmnopqrstuvwxyz0123456789`. What is the value of the `Content-Length` HTTP header in the response?""")
 
 q9_email_box, q9_salt_box = st.columns([1, 1], vertical_alignment="center")
 q9_email = q9_email_box.text_input(
-    "Enter Email ID", placeholder="<roll_no>@.ds.study.iitm.ac.in")
+    "Enter Email ID", placeholder="<roll_no>@ds.study.iitm.ac.in")
 q9_salt = q9_salt_box.text_input(
     "Enter Salt", placeholder="abcdefghijklmnopqrstuvwxyz0123456789")
 ans9 = st.empty()
